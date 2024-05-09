@@ -21,6 +21,7 @@ const App = () => {
       alert(`${newName} is already added to phonebook`):
       setPersons(persons.concat(personObject))
     setNewName('')    
+    setNewNumber('')
   }
 
   const handleNameChange = (event)=>{
@@ -45,15 +46,15 @@ const App = () => {
         <input value={filterName} onChange={handleFilterName} />
       </div>
       <form onSubmit={addPerson}>
-        <div>name: <input value={newName} onChange={handleNameChange} /> </div>
-        <div>number: <input value={newNumber} onChange={handleNumberChange} /> </div>
+        <div>name: <input value={newName} onChange={handleNameChange} required/> </div>
+        <div>number: <input value={newNumber} onChange={handleNumberChange} required/> </div>
         <div>
           <button type="submit">add</button>
         </div>
       </form>
       <h2>Numbers</h2>
-      {persons.map(person => filterName === ''? <p key={person.name}>{person.name} {person.number}</p>:
-         person.name.toLowerCase().includes(filterName.toLowerCase())?
+      {persons.map(person => filterName === '' || 
+        person.name.toLowerCase().includes(filterName.toLowerCase())?
          <p key={person.name}>{person.name} {person.number}</p>:<></> )}
     </div>
   )
