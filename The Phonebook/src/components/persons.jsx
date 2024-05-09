@@ -1,11 +1,12 @@
 import Person from "./person"
 
-const Persons = ({people,filter}) =>{
+const Persons = ({persons,filter}) =>{
+    
     return(
     <>
-        {people.map(person => filter === '' || 
-        person.name.toLowerCase().includes(filter.toLowerCase())?
-         <Person key={person.name} person={person}/>:<></> )}
+        {persons.map(person => filter === '' ||
+         person.name.toLowerCase().includes(filter.toLowerCase())
+         ?<Person key={person.id} person={person}/> : [])}   
     </>
     )
 }
