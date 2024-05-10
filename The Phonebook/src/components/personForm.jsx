@@ -12,23 +12,39 @@ const PersonForm = ({persons,setPersons}) =>{
           number: newNumber,
           id: `${persons.length+1}`
         }
-        personService
-            .create(personObject)
-            .then(returnedPerson => {
-                setPersons(persons.concat(returnedPerson))
-                setNewName('')    
-                setNewNumber('')
-            })
-            .catch(error => alert(error))        
+        if(!persons.map(person => person.name).includes(personObject.name)){
+            personService
+                .create(personObject)
+                .then(returnedPerson => {
+                    setPersons(persons.concat(returnedPerson))
+                    setNewName('')    
+                    setNewNumber('')
+                })
+                .catch(error => alert(error))        
+            }
+        else{
+            if(window.confirm(`${personObject.name} is already added to the phonebook,replace the old number?`)){
+                personObject.id = persons.find(person => person.name === personObject.name).id
+                console.log(personObject)
+                personService
+                    .update(personObject)
+                    .then(returnedPerson => {
+                        setPersons(persons.map(person => person.name === returnedPerson.name?
+                        returnedPerson:person))
+                        setNewName('')    
+                        setNewNumber('')
+                    })
+                    .catch(error => alert(error))
+            }
+            
+        }
     }
 
     const handleNameChange = (event)=>{
-    console.log(event.target.value)
     setNewName(event.target.value)
     }
     
     const handleNumberChange = (event)=>{
-    console.log(event.target.value)
     setNewNumber(event.target.value)
     }
 

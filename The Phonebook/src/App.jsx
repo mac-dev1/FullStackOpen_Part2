@@ -19,6 +19,25 @@ const App = () => {
       })
   },[])
 
+  const handleErase = (person)=>{
+    if(window.confirm(`Delete ${person.name}?`)){
+        personService
+            .erase(person.id)
+            .then(response => {
+                console.log(response)
+            })
+            .then(personService
+              .getAll()
+              .then(response=>{
+                console.log('promise fulfilled')
+                console.log(response)
+                setPersons(response)
+              })
+            )
+    }
+  }
+
+    
   return (
     <div>
       <h2>Phonebook</h2>
@@ -31,7 +50,8 @@ const App = () => {
 
       <h3>Numbers</h3>
 
-      <Persons persons={persons}  filter={filterName}/>
+      <Persons persons={persons} filter={filterName} handleErase={handleErase} />
+
     </div>
   
   )
