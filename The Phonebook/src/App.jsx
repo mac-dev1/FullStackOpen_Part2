@@ -4,6 +4,7 @@ import PersonForm from './components/personForm'
 import Persons from './components/persons'
 import personService from './services/phonebook'
 
+
 const App = () => {
   const [persons, setPersons] = useState([]) 
   const [filterName, setFilter] = useState('')
@@ -41,7 +42,7 @@ const App = () => {
   return (
     <div>
       <h2>Phonebook</h2>
-
+      
       <Filter filter={filterName} setFilter={setFilter} />
 
       <h3>Add a new</h3>

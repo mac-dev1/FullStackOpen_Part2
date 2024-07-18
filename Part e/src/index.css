@@ -11,6 +11,7 @@
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  -webkit-text-size-adjust: 100%;
 }
 
 a {
@@ -67,8 +68,14 @@ button:focus-visible {
   }
 }
 
-.modification{
-  color: green;
+.note{
+  color: grey;
+  padding-top: 5px;
+  font-size: 15px;
+}
+
+.error {
+  color: red;
   background: lightgrey;
   font-size: 20px;
   border-style: solid;

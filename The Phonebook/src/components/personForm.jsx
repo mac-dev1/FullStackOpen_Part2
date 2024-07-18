@@ -1,9 +1,12 @@
 import { useState } from "react"
 import personService from '../services/phonebook'
+import Notification from "./Notification"
+import '../index.css'
 
 const PersonForm = ({persons,setPersons}) =>{
     const [newName, setNewName] = useState('')
     const [newNumber, setNewNumber] = useState('')
+    const [notificationMessage, setNotificationMessage] = useState()
 
     const addPerson = (event)=>{
         event.preventDefault()
@@ -19,6 +22,7 @@ const PersonForm = ({persons,setPersons}) =>{
                     setPersons(persons.concat(returnedPerson))
                     setNewName('')    
                     setNewNumber('')
+                    setNotificationMessage(`Added ${personObject.name}`)
                 })
                 .catch(error => alert(error))        
             }
@@ -33,6 +37,7 @@ const PersonForm = ({persons,setPersons}) =>{
                         returnedPerson:person))
                         setNewName('')    
                         setNewNumber('')
+                        setNotificationMessage(`${personObject.name} number updated`)
                     })
                     .catch(error => alert(error))
             }
@@ -49,13 +54,16 @@ const PersonForm = ({persons,setPersons}) =>{
     }
 
     return(
-        <form onSubmit={addPerson}>
-            <div>name: <input value={newName} onChange={handleNameChange} required/> </div>
-            <div>number: <input value={newNumber} onChange={handleNumberChange} required/> </div>
-            <div>
-                <button type="submit">add</button>
-            </div>
-        </form>
+        <>
+            <Notification message={notificationMessage} notificationClass={notificationMessage?"modification":""} />
+            <form onSubmit={addPerson}>
+                <div>name: <input value={newName} onChange={handleNameChange} required/> </div>
+                <div>number: <input value={newNumber} onChange={handleNumberChange} required/> </div>
+                <div>
+                    <button type="submit">add</button>
+                </div>
+            </form>
+        </>
     )
 }
 
