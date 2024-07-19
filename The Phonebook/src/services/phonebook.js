@@ -19,7 +19,8 @@ const erase = id =>{
 
 const update = (person) =>{
     const request = axios.put(`${baseUrl}/${person.id}`,person)
-    console.log(`updated number with id ${person.id}`)
+                        
+        
     return request.then(response => response.data)
 }
 

@@ -7,6 +7,7 @@ const PersonForm = ({persons,setPersons}) =>{
     const [newName, setNewName] = useState('')
     const [newNumber, setNewNumber] = useState('')
     const [notificationMessage, setNotificationMessage] = useState()
+    const [notificationClass, setNotificationClass] = useState()
 
     const addPerson = (event)=>{
         event.preventDefault()
@@ -23,6 +24,7 @@ const PersonForm = ({persons,setPersons}) =>{
                     setNewName('')    
                     setNewNumber('')
                     setNotificationMessage(`Added ${personObject.name}`)
+                    setNotificationClass("modification")
                 })
                 .catch(error => alert(error))        
             }
@@ -38,8 +40,13 @@ const PersonForm = ({persons,setPersons}) =>{
                         setNewName('')    
                         setNewNumber('')
                         setNotificationMessage(`${personObject.name} number updated`)
+                        setNotificationClass("modification")
                     })
-                    .catch(error => alert(error))
+                    .catch(error => {
+                        setNotificationMessage(`Information of ${personObject.name} has already been removed from server`)
+                        setNotificationClass("error")
+                        setPersons(persons.filter(person => person.id !== personObject.id))
+                    })
             }
             
         }
@@ -55,7 +62,7 @@ const PersonForm = ({persons,setPersons}) =>{
 
     return(
         <>
-            <Notification message={notificationMessage} notificationClass={notificationMessage?"modification":""} />
+            <Notification message={notificationMessage} notificationClass={notificationClass} />
             <form onSubmit={addPerson}>
                 <div>name: <input value={newName} onChange={handleNameChange} required/> </div>
                 <div>number: <input value={newNumber} onChange={handleNumberChange} required/> </div>
