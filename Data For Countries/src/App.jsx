@@ -20,12 +20,12 @@ function App() {
 
   useEffect(() => {    
     if(value.length > 0){    
-      const listCountries = allCountries.filter(name => name.toLowerCase().includes(value.toLowerCase()))    
+      const listCountries = allCountries.filter(country => country.name.common.toLowerCase().includes(value.toLowerCase()))          
       if(listCountries.length > 10){
         setCountries(["Too many matches, specify another filter"])
       }else if(listCountries.length === 1){
         setCountries([])
-        countriesService.getOne(listCountries[0].toLowerCase()).then(response => setCountry(response))
+        setCountry(listCountries[0])
       }else{
         setCountry()
         setCountries(listCountries)
@@ -43,7 +43,7 @@ function App() {
   return (
     <>
       Find Countries <input value={value} onChange={handleChange} />
-      <ShowCountries list={countries} />
+      <ShowCountries list={countries} value={value} />
       <ShowCountry country={country} />
     </>
   )
