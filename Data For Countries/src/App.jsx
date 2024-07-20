@@ -5,18 +5,29 @@ import './App.css'
 import axios from 'axios'
 import ShowCountries from './components/ShowCountries'
 import countriesService from './services/countries'
+import weatherService from './services/weather'
 import ShowCountry from './components/ShowCountry'
+import Weather from './components/Weather'
 
 function App() {
   const [value, setValue] = useState('')
   const [countries, setCountries] = useState([]) 
   const [country, setCountry] = useState()
   const [allCountries,setAllCountries] = useState([])
+  const [weather, setWeather] = useState()
 
 
   useEffect(()=>{
     countriesService.getAll().then(response => setAllCountries(response))
   },[])
+
+  useEffect(()=>{
+    weatherService.getWeather(country?country.capital:null)
+                  .then(response =>{ 
+                    setWeather(response)                    
+                  })
+                  .catch(error => setWeather(null))
+  },[country])
 
   useEffect(() => {    
     if(value.length > 0){    
@@ -25,7 +36,7 @@ function App() {
         setCountries(["Too many matches, specify another filter"])
       }else if(listCountries.length === 1){
         setCountries([])
-        setCountry(listCountries[0])
+        setCountry(listCountries[0])        
       }else{
         setCountry()
         setCountries(listCountries)
@@ -43,8 +54,9 @@ function App() {
   return (
     <>
       Find Countries <input value={value} onChange={handleChange} />
-      <ShowCountries list={countries} value={value} />
-      <ShowCountry country={country} />
+      <ShowCountries list={countries} value={value} setCountry={setCountry}/>
+      <ShowCountry country={country} weather={weather} />
+      <Weather weatherObj={weather} />
     </>
   )
 }
